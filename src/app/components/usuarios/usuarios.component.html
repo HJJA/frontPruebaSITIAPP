@@ -1,0 +1,64 @@
+<div class="contenedor">
+    <div class="formulario">
+      <h2>Crear/Editar Usuario</h2>
+      <form [formGroup]="usuarioForm" (ngSubmit)="guardarUsuario()">
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" formControlName="apellido" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" formControlName="usuario" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" formControlName="contrasena" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Perfil de usuario</label>
+          <select name="idperfil" id="idperfil" formControlName="idperfil" class="form-control">
+            <option [ngValue]="item.idperfil" *ngFor="let item of perfil">{{item.nombre}}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="usuarioForm.invalid">Guardar Usuario</button>
+
+      </form>
+    </div>
+    <div class="tabla">
+      <h2>Usuarios Registradas</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Usuario</th>
+            <th>Contraseña</th>
+            <th>Perfil</th>
+            <th>Opcion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of usuarios">
+
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.usuario}}</td>
+            <td>{{item.contrasena}} </td>
+            <td>{{item.idperfil}}</td>
+            <td>
+              <button type="button" class="btn btn-success" (click)="editarUsuario(item)">Editar</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>

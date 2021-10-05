@@ -1,0 +1,257 @@
+<div class="tabla2">
+
+
+  <div class="accordion accordion-flush" id="accordionFlushExample">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="flush-headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          CREAR FACTURAS
+        </button>
+      </h2>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+        data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          <div>
+            <div class="card card-body">
+              <form [formGroup]="facturasForm" (ngSubmit)="guardarFactura()">
+                <div class="form-group">
+                  <label>Numero identificacion cliente: </label>
+                  <input type="text" formControlName="cliente" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Fecha</label>
+                  <input type="date" formControlName="fecha" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="facturasForm.invalid">Guardar</button>
+              </form>
+              <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
+                CLIENTES REGISTRADOS
+              </a>
+              <div class="collapse" id="collapseExample">
+                <h2>Clientes Registrados</h2>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>tipo de identificacion</th>
+                      <th>Numero de identificacion</th>
+                      <th>Razon social</th>
+                      <th>Fecha registro</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of clientes">
+                      <td>{{item.tiposidentificacion}}</td>
+                      <td>{{item.identificacion}}</td>
+                      <td>{{item.razonsocial}}</td>
+                      <td>{{item.fecharegistro}}</td>
+                      <td>{{item.estado}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="flush-headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+          Listado de facturas creadas
+        </button>
+      </h2>
+      <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+        data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>CONSECUTIVO</th>
+                <th>NUMERO IDENTIFICACION DEL CLIENTE</th>
+                <th>FECHA</th>
+                <th><button class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle"
+                    role="button">Agregar
+                    producto</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of facturas">
+                <td>{{item.consecutivo}}</td>
+                <td>{{item.cliente}}</td>
+                <td>{{item.fecha}}</td>
+                <td>
+                  <button type="button" class="btn btn-success" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"
+                    (click)="editarfactur(item)">
+                    Editar
+                  </button>
+
+                  <button class="btn btn-info" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree"
+                    (click)="cargarDetalle(item.consecutivo)">
+                    Ver factura
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="flush-headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+          Detalle y edicion de factura
+        </button>
+      </h2>
+      <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+        data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+
+
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Codigo del producto</th>
+                <th>Valor unitario</th>
+                <th>Cantidad</th>
+                <th>Valor total</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of facturadetalle">
+                <td>{{item.idproducto}}</td>
+                <td>{{item.valorunitario}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{ item.cantidad*item.valorunitario }}</td>
+                <td>
+                  <button class="btn btn-success" data-bs-toggle="modal" href="#exampleModalToggle"
+                    (click)="editarfacturadetalleE(item)">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="eliminar(item)">
+                    Eliminar
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td>
+
+                </td>
+                <td>
+                  <h5>TOTAL</h5>
+                </td>
+                <td>
+                  <h5> {{total}}</h5>
+                </td>
+                <td><button class="btn btn-primary" (click)="generatePDF()">
+                  Guardar
+                </button></td>
+              </tr>
+
+            </tfoot>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Agregar producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form [formGroup]="facturadetalleForm" (ngSubmit)="guardarDetalle()">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>CONSECUTICO</th>
+                  <th>PRODUCTO</th>
+                  <th>CANTIDAD</th>
+                  <th>VALOR UNITARIO</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td><input type="number" formControlName="consecutivo"></td>
+
+                  <td><input type="number" formControlName="idproducto"></td>
+
+                  <td><input type="number" formControlName="cantidad"></td>
+
+                  <td><input type="number" formControlName="valorunitario"></td>
+
+                  <td><button type="submit" class="btn btn-primary"
+                      [disabled]="facturadetalleForm.invalid">Guardar</button></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </form>
+
+          <button type="button" class="btn btn-info" data-bs-toggle="collapse" href="#productos">Lista de
+            productos</button>
+
+          <div class="collapse" id="productos">
+            <h3>PRODUCTOS</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Nombre</th>
+                  <th>Estado</th>
+                  <th>Valor unitario</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of productos">
+
+                  <td>{{item.codigo}}</td>
+                  <td>{{item.nombre}}</td>
+                  <td>{{item.estado}}</td>
+                  <td>{{item.valorunitario}} </td>
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
